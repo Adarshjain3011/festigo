@@ -1,37 +1,42 @@
-
 import { NextRequest, NextResponse } from "next/server";
+
+import { getDataFromToken } from "./helper/getDataFromToken";
 
 import { Role } from "./Utils/Enums";
 
 
 interface CustomNextRequest extends NextRequest {
-
     user: string,
-
 }
-
 
 const PublicPaths = '/auth/';
 
 const DefaultPage = ["/", "/unauthorized", "/something-went-wrong"];
 
-// const otherProtectedRoute = ["/auth/verifyEmail/token"]
+const commonRoute = ["/","/dashboard"];
+
+const guestRoute = "/guest/";
+
+const adminRoute = "/admin/";
+
+const eventOrganizer = "/eventOrganizer";
+
+const vendorRoute = "/vendor";
 
 export async function middleware(req: CustomNextRequest) {
-
-    // Apply middleware for parsing URL-encoded bodies
-
+    
     const path = req.nextUrl.pathname;
-
     let isLoggedIn = req.cookies.get("token")?.value || "";
-
     let decodedToken;
-
 
     if (isLoggedIn) {
 
-        // decodedToken = await getDataFromToken(req);
+        decodedToken = await getDataFromToken(req);
+
         // req.user = decodedToken.id;
+
+        console.log("decoded role :", decodedToken);
+
     }
 
     if (DefaultPage.includes(path)) {
@@ -44,20 +49,22 @@ export async function middleware(req: CustomNextRequest) {
 
     if (isLoggedIn && isPublicPath) {
 
-        return NextResponse.redirect(new URL(`/${(decodedToken.role)?.toLowerCase()}`, req.url));
+        console.log("hellow ");
 
+        return NextResponse.redirect(new URL(`/dashboard`, req.url));
     }
 
     if (!isLoggedIn && !isPublicPath) {
 
         return NextResponse.redirect(new URL('/auth/login', req.url));
+
     }
 
     if (isLoggedIn) {
 
-        // If the user is logged in, check permission based on their role
-
         const hasPermission = checkPermission(decodedToken.role, path);
+
+        console.log("is permission ",hasPermission);
 
         if (!hasPermission) {
 
@@ -66,41 +73,34 @@ export async function middleware(req: CustomNextRequest) {
     }
 
     return NextResponse.next();
-
 }
 
 function checkPermission(role: Role, path: string): boolean {
-    
+
+    console.log("role is ",role);
+
     switch (role) {
 
-        case "Student":
-            return path.includes('student');
-
-        case "Admin":
-            return path.includes('admin')
-
-        case "Principal":
-            return path.includes('principal');
-
-        case "Gatekeeper":
-            return path.includes('gatekeeper');
-
-        case "Warden":
-            return path.includes('warden');
-
-        case "Coordinator":
-            return path.includes('coordinator');
-
+        case Role.ADMIN:
+            return adminRoute.includes('admin' || "/" || "/dashboard") ;
+        case Role.EVENT_ORGANIZER:
+            return eventOrganizer.includes('eventOrganizer' || "/" || "/dashboard");
+        case Role.GUEST:
+            return guestRoute.includes('guest' || "/" || "/dashboard");
+        case Role.VENDOR:
+            return vendorRoute.includes('vendor' || "/" || "/dashboard");
         default:
             return false;
     }
 }
-
 
 export const config = {
 
     matcher: ['/((?!api|static|.\\..|_next).*)', '/auth/verifyEmail/:token'],
 
 };
+
+
+
 
 
