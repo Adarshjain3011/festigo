@@ -23,7 +23,7 @@ export default function Layout({
       <div className="bg-white w-1/6 fixed top-0 left-0 ">
         <Sidebar />
       </div>
-      <div className="w-5/6 ml-auto  flex flex-col">
+      <div className="w-5/6 ml-auto flex flex-col">
 
         <TopBar></TopBar>
 

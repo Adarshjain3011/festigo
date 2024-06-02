@@ -8,7 +8,7 @@ export default function Layout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="flex flex-col min-h-screen bg-[#FEF4F4]">
+        <div className="flex flex-col w-full min-h-screen bg-[#FEF4F4]">
             {/* Fixed top bar */}
             <div className="fixed left-[17%] right-4 z-50 bg-[#FEF4F4] w-full">
                 <GuestTopBar />
@@ -20,5 +20,6 @@ export default function Layout({
         </div>
     );
 }
+
 
 
