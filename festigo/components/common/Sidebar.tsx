@@ -70,7 +70,7 @@ export default function Sidebar() {
 
                 {/* Bottom section */}
 
-                <div className="flex w-full lg:w-auto flex-col gap-3 p-3 shadow-2xl pt-5">
+                <div className="flex w-full lg:w-auto flex-col gap-3 p-3 shadow-2xl pt-5 pb-24">
 
                     {SideBarData.map((data, index) => (
 

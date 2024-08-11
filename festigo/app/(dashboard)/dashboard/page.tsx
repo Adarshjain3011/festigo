@@ -1,7 +1,7 @@
 
 "use client"
 
-import DashBoard from "@/components/dashboard/Dashboard";
+import DashBoard from "@/components/dashboard/DashBoard";
 
 export default function DashBoardComponent() {
   return (
