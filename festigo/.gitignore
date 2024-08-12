@@ -8,6 +8,8 @@
 
 # testing
 /coverage
+/.nyc_output
+/junit.xml
 
 # next.js
 /.next/
@@ -19,15 +21,20 @@
 # misc
 .DS_Store
 *.pem
+*.log
+*.env
+*.env*.local
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/.vscode/
+/.idea/
 
 # local env files
 .env*.local
-.env*
+.env
 
 # vercel
 .vercel
@@ -36,10 +43,21 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# OS generated files
+Thumbs.db
+Desktop.ini
 
+# optional lock files
+package-lock.json
+yarn.lock
 
+# linting
+.eslintcache
 
+# storybook
+/storybook-static
+/.storybook
 
-
-
-
+# logs
+logs
+*.log
